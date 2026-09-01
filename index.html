@@ -114,7 +114,7 @@
   #thanks.show{display:block;animation:fade .5s ease both}
   #thanks .check{width:80px;height:80px;margin:4px auto 18px;border-radius:50%;background:var(--blue1);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 26px -10px rgba(45,129,197,.7)}
   #thanks h2{font-family:var(--disp);font-style:italic;font-weight:600;font-size:38px;color:var(--navy);margin-bottom:8px}
-  #thanks p{color:var(--muted);font-size:16px;max-width:460px;margin:0 auto}
+  #thanks p{color:#2b3c56;font-weight:500;font-size:16px;max-width:460px;margin:0 auto}
   .finish{max-width:450px;margin:18px auto 18px;text-align:left}
   .fstep{display:flex;gap:12px;align-items:center;background:#eef4fb;border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:14.5px;color:var(--ink);line-height:1.35}
   .fstep .fn{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
@@ -130,7 +130,7 @@
 
 <!-- ============ SCREEN 1 — COVER ============ -->
 <section id="cover" class="screen active">
-  <video class="bgvid" autoplay muted loop playsinline preload="auto" poster="oaks_poster.jpg">
+  <video class="bgvid" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="oaks_poster.jpg" disablepictureinpicture>
     <source src="oaks_loop.mp4" type="video/mp4">
   </video>
   <div class="cover-scrim"></div>
@@ -295,6 +295,19 @@
   document.getElementById('toDetails').addEventListener('click',()=>show('details'));
   document.getElementById('toForm').addEventListener('click',()=>show('form'));
   document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',()=>show(b.dataset.goto)));
+
+  // Force the background video to autoplay on mobile (iOS/Android)
+  (function(){
+    var v=document.querySelector('.bgvid'); if(!v) return;
+    v.muted=true; v.defaultMuted=true; v.setAttribute('muted','');
+    function kick(){ var p=v.play(); if(p&&p.catch){ p.catch(function(){}); } }
+    kick();
+    if(v.readyState>=2) kick(); else v.addEventListener('loadeddata',kick,{once:true});
+    ['touchstart','pointerdown','click','scroll'].forEach(function(ev){
+      document.addEventListener(ev,kick,{once:true,passive:true});
+    });
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden) kick(); });
+  })();
 
   const form=document.getElementById('regForm'), submitBtn=document.getElementById('submitBtn');
   form.addEventListener('submit',async(e)=>{
