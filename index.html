@@ -163,6 +163,7 @@
       <div class="fact"><div class="k">Golf</div><div class="v">2 rounds, Saturday &amp; Sunday &mdash; TPC San Antonio (a PGA Tour host course)</div></div>
       <div class="fact"><div class="k">Hotel</div><div class="v">Minimum stay 3 nights (March 19, 20, 21) &mdash; required to secure the rate</div></div>
     </div>
+    <div id="wlBanner" style="display:none;background:#c1362b;color:#fff;font-weight:700;border-radius:12px;padding:13px 16px;margin-bottom:14px;text-align:center;letter-spacing:.02em;box-shadow:0 10px 24px -12px rgba(193,54,43,.7)">The field is full &mdash; join the waitlist below</div>
     <button class="btn" id="toDetails">Click here to reserve your spot &raquo;</button>
     <div class="cover-note">A Coffey Cup tradition &middot; All Sotheby&rsquo;s agents</div>
   </div>
@@ -339,6 +340,7 @@
       if(set){ await fetch(SHEET_ENDPOINT,{method:'POST',mode:'no-cors',body:data}); }
       else{ await new Promise(r=>setTimeout(r,600)); }
       form.style.display='none';
+      if(document.body.classList.contains('waitlist')) applyWaitlistThanks();
       document.getElementById('thanks').classList.add('show');
       window.scrollTo({top:0,behavior:'smooth'});
     }catch(err){
@@ -346,6 +348,30 @@
       alert('Sorry, something went wrong. Please try again, or text Brian at 561-379-8805.');
     }
   });
+
+  // ---- WAITLIST MODE (auto when the field hits the cap) ----------------------
+  function enableWaitlist(){
+    document.body.classList.add('waitlist');
+    var b=document.getElementById('toDetails'); if(b) b.innerHTML='Join the waitlist &raquo;';
+    var sb=document.getElementById('submitBtn'); if(sb) sb.textContent='Join the Waitlist »';
+    var note=document.querySelector('.cover-note'); if(note) note.innerHTML='The field is full &mdash; add your name to the waitlist below.';
+    var banner=document.getElementById('wlBanner'); if(banner) banner.style.display='block';
+  }
+  function applyWaitlistThanks(){
+    var h=document.querySelector('#thanks h2'); if(h) h.textContent="You're on the waitlist!";
+    var p=document.querySelector('#thanks p'); if(p) p.innerHTML="Thanks &mdash; the field is currently full, so you&rsquo;re on the waitlist. Brian will reach out if a spot opens up. Please hold off on payment until you&rsquo;re confirmed.";
+    var fin=document.querySelector('#thanks .finish'); if(fin) fin.style.display='none';
+    var hl=document.getElementById('hotelLink'); if(hl) hl.style.display='none';
+    document.querySelectorAll('#thanks a, #thanks div').forEach(function(el){ if(el.textContent && el.textContent.indexOf('booking issue')>-1) el.style.display='none'; });
+  }
+  // Ask the backend for the current count; flip to waitlist mode if full (JSONP avoids CORS)
+  (function(){
+    if(!SHEET_ENDPOINT || SHEET_ENDPOINT.startsWith('PASTE')) return;
+    window.__ccCount=function(d){ if(d && d.full) enableWaitlist(); };
+    var s=document.createElement('script');
+    s.src=SHEET_ENDPOINT+'?callback=__ccCount&t='+Date.now();
+    s.onerror=function(){}; document.head.appendChild(s);
+  })();
 </script>
 </body>
 </html>
