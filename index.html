@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Coffey Cup VII — San Antonio Edition</title>
+<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<meta name="description" content="The Coffey Cup VII — San Antonio. March 19–22, 2027 at TPC San Antonio. Reserve your spot.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Coffey Cup VII">
+<meta property="og:url" content="https://coffeycup2027.vercel.app/">
+<meta property="og:title" content="The Coffey Cup VII — San Antonio Edition">
+<meta property="og:description" content="March 19–22, 2027 · TPC San Antonio · Reserve your spot.">
+<meta property="og:image" content="https://coffeycup2027.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Coffey Cup VII — San Antonio Edition">
+<meta name="twitter:description" content="March 19–22, 2027 · TPC San Antonio · Reserve your spot.">
+<meta name="twitter:image" content="https://coffeycup2027.vercel.app/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -83,7 +98,9 @@
   .total{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:16px 18px;background:#eef4fb;border-radius:12px}
   .total .label{font-weight:700;font-size:18px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em}
   .total .amt{font-family:var(--disp);font-style:italic;font-weight:600;font-size:34px;color:var(--navy)}
-  .value-note{text-align:center;color:#123f68;font-weight:700;font-size:14.5px;margin-top:14px}
+  .value-note{text-align:center;color:#123f68;font-weight:700;font-size:17.5px;line-height:1.35;margin-top:16px}
+  .mustpay{margin-top:16px;background:#eef4fb;border:1.5px solid var(--navy);border-radius:12px;padding:14px 18px;text-align:center;color:var(--navy);font-weight:700;font-size:15px;line-height:1.4}
+  .mustpay span{display:block;font-weight:500;font-size:13px;color:#40506a;margin-top:4px}
 
   .pay{margin-top:22px;border:1px dashed rgba(17,37,72,.3);border-radius:12px;padding:18px 20px;text-align:center}
   .pay .h{font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--muted);margin-bottom:10px}
@@ -169,7 +186,7 @@
         <div class="amt">Resort rate</div>
       </div>
       <div class="lineitem">
-        <div class="label">Food &amp; Beverage<small>2 sit-down dinners at the resort + all other F&amp;B covered &mdash; no need to leave the resort</small></div>
+        <div class="label">Food &amp; Beverage &mdash; Required<small>2 sit-down dinners included, plus much more</small></div>
         <div class="amt">$500</div>
       </div>
       <div class="total">
@@ -183,7 +200,9 @@
         <div class="methods"><span>Venmo &nbsp;@brian-coffey-25</span><span>Zelle &nbsp;561-379-8805</span></div>
       </div>
 
-      <button class="btn" id="toForm" style="margin-top:24px">Click here to confirm your reservation &raquo;</button>
+      <div class="mustpay">You must make payment <b>and</b> secure your room to guarantee your spot.<span>The hotel will not charge your card now.</span></div>
+
+      <button class="btn" id="toForm" style="margin-top:20px">Click here to confirm your reservation &raquo;</button>
     </div>
   </div>
 </section>
